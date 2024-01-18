@@ -1,6 +1,6 @@
 from codebase.search import search_gogo_search,search_gogo_episodes
 from cli.printer import print_choices,print_list
-from codebase.stream import stream_web
+from codebase.stream import stream_web,stream_mpv
 
 from InquirerPy import inquirer
 from rich.console import Console
@@ -26,6 +26,8 @@ def main():
     ep_choice=print_list(ep_list,"Episode")
 
     stream_web(anime_choice,ep_choice)
+
+    # stream_mpv(anime_choice,ep_choice)
     
     
 
