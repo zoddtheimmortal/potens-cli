@@ -17,7 +17,8 @@ def search_gogo_search(query):
         title=row.find('p',class_="name").find('a').get_text()
         link=row.find('p',class_="name").find('a').get("href")
         animes[title]=f"{base}{link}"
-    
+    if len(animes)==0:
+        return None
     return animes
 
 def search_gogo_episodes(link):
