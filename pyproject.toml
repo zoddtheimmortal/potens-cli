@@ -7,6 +7,16 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.12"
+colorama = "^0.4.6"
+beautifulsoup4 = "^4.12.3"
+scraper = "^0.1.0"
+requests = "^2.31.0"
+rich = "^13.7.0"
+inquirerpy = "^0.3.4"
+mpv = "^1.0.5"
+ascii-magic = "^2.3.0"
+climage = "^0.2.0"
+python-vlc = "^3.0.20123"
 
 
 [build-system]
