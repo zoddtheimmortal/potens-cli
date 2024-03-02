@@ -25,4 +25,17 @@ def print_list(options,term):
     selected_option=inquirer.text(message=f"Select A(n) {term}: ").execute()
 
     return selected_option
-    
+
+def print_ascii():
+    console=Console()
+    console.print(
+            Text(r"""
+                 __                             ___ 
+    ____  ____  / /____  ____  _____      _____/ (_)
+   / __ \/ __ \/ __/ _ \/ __ \/ ___/_____/ ___/ / / 
+  / /_/ / /_/ / /_/  __/ / / (__  )_____/ /__/ / /  
+ / .___/\____/\__/\___/_/ /_/____/      \___/_/_/   
+/_/                                                 
+"""), style="bold magenta"
+    )
+    return

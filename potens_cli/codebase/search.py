@@ -5,10 +5,13 @@ from config.urls import URLS
 from rich.console import Console
 from rich.text import Text
 
+
+HEADERS = {'User-Agent': 'Mozilla/5.0 (iPad; CPU OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148'}
+
 def search_gogo_search(query):
     base=URLS["site_urls"]["gogoanime"]
     url=f"{base}/search.html"
-    response=requests.get(url,params={"keyword":query})
+    response=requests.get(url,params={"keyword":query},headers=HEADERS)
 
     soup=BeautifulSoup(response.content,"html.parser")
 
@@ -17,15 +20,22 @@ def search_gogo_search(query):
         title=row.find('p',class_="name").find('a').get_text()
         link=row.find('p',class_="name").find('a').get("href")
         animes[title]=f"{base}{link}"
-    
+    if len(animes)==0:
+        return None
     return animes
 
-def search_gogo_episodes(link):
+def search_gogo_anime_data(link):
     url=f"{link}"
 
-    response=requests.get(url)
+    response=requests.get(url,headers=HEADERS)
 
     soup=BeautifulSoup(response.content,"html.parser")
+    
+    data={}
+
+    body=soup.find("div",class_="anime_info_body_bg")
+    title=body.find("h1").get_text()
+    img=body.find("img").get("src")
 
     episodes=[]
     for ep in soup.select("ul#episode_page li"):
@@ -33,7 +43,11 @@ def search_gogo_episodes(link):
         ep_end=ep.find('a').get("ep_end")
         episodes.append(f"{ep_start} - {ep_end}")
 
-    return episodes
+    data["episodes"]=episodes
+    data["title"]=title
+    data["img"]=img
+
+    return data
 
 def search_gogo_vid(anime,ep):
     base=URLS["site_urls"]["gogoanime"]
@@ -41,7 +55,7 @@ def search_gogo_vid(anime,ep):
     url=f"{base}/{query}-episode-{ep}"
     console=Console()
 
-    response=requests.get(url)
+    response=requests.get(url,headers=HEADERS)
     
     soup=BeautifulSoup(response.content,"html.parser")
     

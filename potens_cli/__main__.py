@@ -1,17 +1,37 @@
-from codebase.search import search_gogo_search,search_gogo_episodes
-from cli.printer import print_choices,print_list
-from codebase.stream import stream_web,stream_mpv
+import os
+import requests
+
+from PIL import Image
+from io import BytesIO
+
+from codebase.search import search_gogo_search,search_gogo_anime_data
+from cli.printer import print_choices,print_list,print_ascii
+from codebase.stream import stream_web,stream_mpv,stream_vlc
 
 from InquirerPy import inquirer
 from rich.console import Console
 from rich.text import Text
+from ascii_magic import AsciiArt
 
 def main():
     console=Console()
+
+    os.system("clear")
+
+    print_ascii()
     
     query=inquirer.text(message="Search an anime: ").execute()
 
     res=search_gogo_search(query)
+    if res==None:
+        console.print(
+            Text(
+                f"No Results Found"
+            ),
+            style="bold yellow"
+        )
+        return
+      
     anime_choice=print_choices(res.keys(),"Anime")
 
     console.print(
@@ -21,12 +41,12 @@ def main():
         style="bold yellow"
     )
 
-    ep_list=search_gogo_episodes(res[anime_choice])
+    data=search_gogo_anime_data(res[anime_choice])
 
-    ep_choice=print_list(ep_list,"Episode")
+    ep_choice=print_list(data["episodes"],"Episode")
 
     stream_web(anime_choice,ep_choice)
-
+    # stream_vlc(anime_choice,ep_choice)
     # stream_mpv(anime_choice,ep_choice)
     
     
