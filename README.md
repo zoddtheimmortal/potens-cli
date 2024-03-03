@@ -4,7 +4,7 @@ A cli tool to stream & download anime from the command line.
 
 ### Demo
 
-[potens-demo.mp4](./resources/demo.mp4)
+<video src='./resources/demo.mp4'></video>
 
 ### Current Streaming Options
 
